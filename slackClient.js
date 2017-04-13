@@ -40,45 +40,46 @@ function handleOnMessage(message) {
         let keyword = (words.slice(-1)[0]).replace(/\W/g,'');
         getSentiment(keyword,(err,res)=>{
             console.log(res);
-            // let posPercent = parseFloat(Math.round(res.positive*10000)/100).toFixed(2);
-            // let negPercent =parseFloat(Math.round(res.negative*10000)/100).toFixed(2);
-            // let winner = (posPercent>negPercent)?'positive':'negative';
-            // rtm.sendMessage(`Sentiment Analysis - Senior Project Slackbot\n-------------------------------------------------\nThe overall sentiment of ${keyword} is ${winner} with a positive score of %${posPercent} and a negative score of %${negPercent}`,message.channel); 
+            let posPercent = parseFloat(Math.round(res.positive*10000)/100).toFixed(2);
+            let negPercent =parseFloat(Math.round(res.negative*10000)/100).toFixed(2);
+            let winner = (posPercent>negPercent)?'positive':'negative';
+            let emoji = (posPercent>negPercent)? ':grinning:':':white_frowning_face:';
+            rtm.sendMessage(`*Sentiment Analysis - Senior Project Slackbot*\n---------------------------------------------------\nThe overall sentiment of ${keyword} is ${winner} ${emoji} with a positive score of %${posPercent} and a negative score of %${negPercent}`,message.channel); 
         });
     }
      
 
-    // if (message.text.toLowerCase().includes('iris')) {
-    //     nlp.ask(message.text, (err, res) => {
-    //         if (err) {
-    //             console.log(err);
-    //             return;
-    //         }
+    if (message.text.toLowerCase().includes('iris')) {
+        nlp.ask(message.text, (err, res) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
 
-    //         try {
-    //             if(!res.intent || !res.intent[0] || !res.intent[0].value) {
-    //                 throw new Error("Could not extract intent.")
-    //             }
+            try {
+                if(!res.intent || !res.intent[0] || !res.intent[0].value) {
+                    throw new Error("Could not extract intent.")
+                }
 
-    //             const intent = require('./intents/' + res.intent[0].value + 'Intent');
+                const intent = require('./intents/' + res.intent[0].value + 'Intent');
 
-    //             intent.process(res, function(error, response) {
-    //                 if(error) {
-    //                     console.log(error.message);
-    //                     return;
-    //                 }
+                intent.process(res, function(error, response) {
+                    if(error) {
+                        console.log(error.message);
+                        return;
+                    }
                     
-    //                 return rtm.sendMessage(response, message.channel);
-    //             })
+                    return rtm.sendMessage(response, message.channel);
+                })
 
-    //         } catch(err) {
-    //             console.log(err);
-    //             console.log(res);
-    //             rtm.sendMessage("Sorry, I don't know what you are talking about!", message.channel);
-    //         }
+            } catch(err) {
+                console.log(err);
+                console.log(res);
+                rtm.sendMessage("Sorry, I don't know what you are talking about!", message.channel);
+            }
 
-    //     });
-    // }
+        });
+    }
 
 }
 
