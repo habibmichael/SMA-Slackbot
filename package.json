@@ -5,6 +5,9 @@
   "main": "run.js",
   "author": "Michael Habib",
   "license": "MIT",
+  "scripts": {
+    "start":"node run.js"
+  },
   "dependencies": {
     "@slack/client": "^3.9.0",
     "express": "^4.15.2",
