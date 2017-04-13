@@ -13,12 +13,13 @@ function handleOnAuthenticated(rtmStartData) {
 
 function getSentiment(keyword,cb){
 
-    request.get('http://localhost:8090/service/sma')
+    request.get('http://analyze:8090/service/sma')
             .query({keyword:keyword})
             .end((err,res)=>{
                 if (err){
                     cb(err);
                 }else{
+                  console.log(res.body);
                   cb(null,res.body);
                 }
             });
@@ -39,10 +40,10 @@ function handleOnMessage(message) {
         let keyword = (words.slice(-1)[0]).replace(/\W/g,'');
         getSentiment(keyword,(err,res)=>{
             console.log(res);
-            let posPercent = parseFloat(Math.round(res.positive*10000)/100).toFixed(2);
-            let negPercent =parseFloat(Math.round(res.negative*10000)/100).toFixed(2);
-            let winner = (posPercent>negPercent)?'positive':'negative';
-            rtm.sendMessage(`Sentiment Analysis - Senior Project Slackbot\n-------------------------------------------------\nThe overall sentiment of ${keyword} is ${winner} with a positive score of %${posPercent} and a negative score of %${negPercent}`,message.channel); 
+            // let posPercent = parseFloat(Math.round(res.positive*10000)/100).toFixed(2);
+            // let negPercent =parseFloat(Math.round(res.negative*10000)/100).toFixed(2);
+            // let winner = (posPercent>negPercent)?'positive':'negative';
+            // rtm.sendMessage(`Sentiment Analysis - Senior Project Slackbot\n-------------------------------------------------\nThe overall sentiment of ${keyword} is ${winner} with a positive score of %${posPercent} and a negative score of %${negPercent}`,message.channel); 
         });
     }
      
