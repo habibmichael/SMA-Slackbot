@@ -32,10 +32,16 @@ function getSentiment(keyword,cb){
 
 
 function handleOnMessage(message) {
+    console.log("In Method");
 
-    if(!message.text===''){
+    if(message.text!==''){
+        console.log("Message not blank");
+
         if(message.text.toLowerCase().includes('sma')){
+            console.log("message contains sma");
+
             if((message.text.toLowerCase().includes('of')) || (message.text.toLowerCase().includes('about'))){
+                console.log("Message contains about or of");
                 
                 let text = message.text;
                 let regex = /(of|about)(.*)/;
